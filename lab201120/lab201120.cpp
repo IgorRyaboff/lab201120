@@ -1,20 +1,79 @@
-﻿// lab201120.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
+﻿#include <iostream>
+#include <ctime>
+using namespace std;
 
-#include <iostream>
+int random(int min, int max) {
+    return min + rand() % ((max + 1) - min);
+}
+
+class Vector {
+    double* array;
+    int size;
+
+public:
+    Vector() {
+        this->size = 0;
+        this->array = new double[0];
+    }
+
+    Vector(int size) {
+        this->size = size;
+        this->array = new double[size];
+    }
+
+    void print() {
+        for (int i = 0; i < size; i++) {
+            cout << array[i] << " ";
+        }
+        cout << endl;
+    }
+
+    void setSize(int s) {
+        double* newArray = new double[s];
+        for (int i = 0; i < s && i < size; i++) {
+            newArray[i] = array[i];
+        }
+        size = s;
+        array = newArray;
+    }
+
+    double& operator [] (int index) {
+        return (array[index]);
+    }
+
+    Vector& operator = (Vector* v) {
+        this->array = v->array;
+        this->size = v->size;
+        return *this;
+    }
+
+    Vector operator + (Vector x) {
+        Vector y = Vector(size);
+        for (int i = 0; i < size; i++) {
+            y.array[i] = this->array[i] + x[i];
+        }
+        return y;
+    }
+};
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    srand(time(0));
+    Vector x = Vector();
+    x.setSize(3);
+    Vector y = Vector(3);
+
+    for (int i = 0; i < 3; i++) {
+        x[i] = random(-10, 10);
+        y[i] = random(-10, 10);
+    }
+    cout << "Vector X: ";
+    x.print();
+
+    cout << "Vector Y: ";
+    y.print();
+
+    Vector summ = x + y;
+    cout << "Vector X + Y: ";
+    summ.print();
 }
-
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
-
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
