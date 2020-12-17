@@ -7,52 +7,52 @@ int random(int min, int max) {
 }
 
 class Vector {
-    double* array;
-    int size;
+    int poryadok;
 
 public:
+    double* digits;
     Vector() {
-        this->size = 0;
-        this->array = new double[0];
+        this->poryadok = 0;
+        this->digits = new double[0];
     }
 
-    Vector(int size) {
-        this->size = size;
-        this->array = new double[size];
+    Vector(int por) {
+        this->poryadok = por;
+        this->digits = new double[por];
     }
 
     void print() {
-        for (int i = 0; i < size; i++) {
-            cout << array[i] << " ";
+        for (int i = 0; i < poryadok; i++) {
+            cout << digits[i] << " ";
         }
         cout << endl;
     }
 
-    void setSize(int s) {
+    void setPor(int s) {
         double* newArray = new double[s];
-        for (int i = 0; i < s && i < size; i++) {
-            newArray[i] = array[i];
+        for (int i = 0; i < s && i < poryadok; i++) {
+            newArray[i] = digits[i];
         }
-        size = s;
-        array = newArray;
+        poryadok = s;
+        digits = newArray;
     }
 
-    double& operator [] (int index) {
-        return (array[index]);
+    double& operator[] (int index) {
+        return (digits[index]);
     }
 
-    Vector& operator = (Vector* v) {
-        this->array = v->array;
-        this->size = v->size;
+    Vector& operator= (Vector* v) {
+        this->digits = v->digits;
+        this->poryadok = v->poryadok;
         return *this;
     }
 
-    Vector operator + (Vector x) {
-        Vector y = Vector(size);
-        for (int i = 0; i < size; i++) {
-            y.array[i] = this->array[i] + x[i];
+    double operator* (double* v) {
+        double summ = 0;
+        for (int i = 0; i < poryadok; i++) {
+            summ += this->digits[i] * v[i];
         }
-        return y;
+        return summ;
     }
 };
 
@@ -60,7 +60,7 @@ int main()
 {
     srand(time(0));
     Vector x = Vector();
-    x.setSize(3);
+    x.setPor(3);
     Vector y = Vector(3);
 
     for (int i = 0; i < 3; i++) {
@@ -73,7 +73,6 @@ int main()
     cout << "Vector Y: ";
     y.print();
 
-    Vector summ = x + y;
-    cout << "Vector X + Y: ";
-    summ.print();
+    double scalProizv = x * y.digits;
+    cout << "X * Y = " << scalProizv << endl;
 }
